@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KALLPA - Comunidad Educativa</title>
+    <style>
+        :root {
+            --primary-color: #0f172a;
+            --accent-color: #0284c7;
+            --danger-color: #dc2626;
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+        }
+
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 30px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .brand {
+            font-size: 1.25rem;
+            font-weight: bold;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-logout {
+            background-color: var(--danger-color);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: background 0.2s;
+        }
+
+        .btn-logout:hover {
+            background-color: #b91c1c;
+        }
+
+        .nav-tabs {
+            background-color: #ffffff;
+            display: flex;
+            gap: 20px;
+            padding: 0 30px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .tab-btn {
+            background: none;
+            border: none;
+            padding: 15px 10px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+        }
+
+        .tab-btn.active {
+            color: var(--primary-color);
+            border-bottom-color: var(--accent-color);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        .view {
+            display: none;
+        }
+
+        .view.active {
+            display: block;
+        }
+
+        .welcome-banner {
+            background-color: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 20px 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        .welcome-banner h2 {
+            font-size: 1.4rem;
+            color: var(--primary-color);
+            margin-bottom: 5px;
+        }
+
+        .welcome-banner p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .modules-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 20px;
+        }
+
+        .module-card {
+            background-color: var(--card-bg);
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .module-card h3 {
+            font-size: 1.1rem;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+
+        .module-card p {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            margin-bottom: 20px;
+            line-height: 1.4;
+        }
+
+        .btn-module {
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            align-self: flex-start;
+            transition: background 0.2s;
+        }
+
+        .btn-module:hover {
+            background-color: #02699c;
+        }
+
+        .report-item {
+            background-color: var(--card-bg);
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .report-info h4 {
+            font-size: 1rem;
+            color: var(--primary-color);
+            margin-bottom: 5px;
+        }
+
+        .report-info p {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .status-badge {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #059669;
+        }
+
+        .auth-card {
+            background: white;
+            max-width: 500px;
+            margin: 40px auto;
+            padding: 30px;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+
+        .auth-card h2 {
+            margin-bottom: 20px;
+            color: var(--primary-color);
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: var(--text-main);
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #cbd5e1;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            background-color: #fff;
+        }
+
+        .btn-submit {
+            width: 100%;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 4px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .btn-submit:hover {
+            background-color: #1e293b;
+        }
+
+        .toggle-auth {
+            text-align: center;
+            margin-top: 15px;
+            font-size: 0.85rem;
+        }
+
+        .toggle-auth a {
+            color: var(--accent-color);
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        </style>
+    </head>
+    <body>
+<header>
+        <div class="brand">KALLPA Comunidad Educativa</div>
+        <button class="btn-logout" id="logoutBtn" onclick="cerrarSesion()" style="display:none;">Cerrar Sesión</button>
+    </header>
+
+    <!-- PANTALLA DE REGISTRO / LOGIN -->
+    <div id="authScreen" class="container">
+        <div class="auth-card">
+            <h2 id="authTitle">Registro de Estudiante / Docente</h2>
+            <form id="registroForm" onsubmit="registrarUsuario(event)">
+                <div class="form-group">
+                    <label>Tipo de Base de Datos</label>
+                    <select id="tipoBase" required onchange="cambiarBaseDatos()">
+                        <option value="primaria">Base de Datos - Estudiantes de Primaria</option>
+                        <option value="secundaria" selected>Base de Datos - Estudiantes de Secundaria</option>
+                        <option value="preparatoria">Base de Datos - Estudiantes de Preparatoria</option>
+                        <option value="docentes">Base de Datos - Docentes</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Nombre Completo</label>
+                    <input type="text" id="nombreCompleto" placeholder="Ej. Juan Pérez" required>
+                </div>
+                <div class="form-group" id="grupoGrado">
+                    <label>Grado</label>
+                    <input type="text" id="gradoEstudiante" placeholder="Ej. 2° Secundaria">
+                </div>
+                <div class="form-group">
+                    <label>Clave de la Escuela</label>
+                    <input type="text" id="claveEscuela" placeholder="Ej. ESC-12345" required>
+                </div>
+                <div class="form-group" id="grupoClaveEstudiante">
+                    <label id="labelClave">Clave de Estudiante</label>
+                    <select id="claveEstudiante" required></select>
+                </div>
+                <div class="form-group">
+                    <label>Correo Electrónico</label>
+                    <input type="email" id="correoElectronico" placeholder="correo@ejemplo.com" required>
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" id="passwordUsuario" placeholder="••••••••" required>
+                </div>
+                <button type="submit" class="btn-submit">Registrarse e Ingresar</button>
+            </form>
+            <div class="toggle-auth">
+                <p>¿Ya tienes cuenta? <a onclick="simularLoginDirecto()">Iniciar Sesión Directa</a></p>
+            </div>
+        </div>
+    </div>
+    <!-- APLICACIÓN PRINCIPAL (Dashboard) -->
+    <div id="appScreen" style="display:none;">
+        <div class="nav-tabs" id="navTabsContainer">
+            <button class="tab-btn active" id="tabModulos" onclick="switchTab('modulos', this)">Módulos de Aprendizaje</button>
+            <button class="tab-btn" id="tabReportes" onclick="switchTab('reportes', this)">Mis Reportes y Avance</button>
+            <button class="tab-btn" id="tabDocente" onclick="switchTab('docente-panel', this)" style="display:none;">Panel Docente & IA</button>
+        </div>
+
+        <div class="container">
+            <!-- Vista de Módulos de Aprendizaje -->
+            <div id="view-modulos" class="view active">
+                <div class="welcome-banner">
+                    <h2 id="saludoUsuario">¡Hola de nuevo!</h2>
+                    <p id="infoRolUsuario">Rol: Estudiante | Nivel: Asignado</p>
+                </div>
+
+                <div class="modules-grid">
+                    <div class="module-card">
+                        <div>
+                            <h3>Finanzas y Economía con IA</h3>
+                            <p>Análisis predictivo de mercados, simuladores de ahorro inteligente y gestión financiera automatizada.</p>
+                        </div>
+                        <button class="btn-module" onclick="entrarModulo('Finanzas y Economía con IA', 'Análisis predictivo de mercados, simuladores de ahorro inteligente y gestión financiera automatizada.')">Entrar al Módulo</button>
+                    </div>
+
+                    <div class="module-card">
+                        <div>
+                            <h3>Robótica y Automatización Inteligente</h3>
+                            <p>Control lógico de sistemas robóticos y algoritmos de visión artificial aplicados.</p>
+                        </div>
+                        <button class="btn-module" onclick="entrarModulo('Robótica y Automatización Inteligente', 'Control lógico de sistemas robóticos y algoritmos de visión artificial aplicados.')">Entrar al Módulo</button>
+                    </div>
+
+                    <div class="module-card">
+                        <div>
+                            <h3>Comunicación y Medios Digitales</h3>
+                            <p>Estrategias de oratoria, redacción aumentada y análisis de impacto en medios masivos con IA.</p>
+                        </div>
+                        <button class="btn-module" onclick="entrarModulo('Comunicación y Medios Digitales', 'Estrategias de oratoria, redacción aumentada y análisis de impacto en medios masivos con IA.')">Entrar al Módulo</button>
+                    </div>
+
+                    <div class="module-card">
+                        <div>
+                            <h3>Relaciones Públicas y Gestión Social</h3>
+                            <p>Resolución de conflictos, técnicas de negociación y herramientas de IA para vinculación comunitaria.</p>
+                        </div>
+                        <button class="btn-module" onclick="entrarModulo('Relaciones Públicas y Gestión Social', 'Resolución de conflictos, técnicas de negociación y herramientas de IA para vinculación comunitaria.')">Entrar al Módulo</button>
+                    </div>
+
+                    <div class="module-card">
+                        <div>
+                            <h3>Desarrollo Emocional</h3>
+                            <p>Inteligencia emocional, autoconocimiento y guías de bienestar interactivo asistidas por asistentes virtuales.</p>
+                        </div>
+                        <button class="btn-module" onclick="entrarModulo('Desarrollo Emocional', 'Inteligencia emocional, autoconocimiento y guías de bienestar interactivo asistidas por asistentes virtuales.')">Entrar al Módulo</button>
+                    </div>
+
+                    <div class="module-card">
+                        <div>
+                            <h3>Desarrollo Humano</h3>
+                            <p>Ética, valores universales, pensamiento crítico y sentido de vida en la era digital.</p>
+                        </div>
+                        <button class="btn-module" onclick="entrarModulo('Desarrollo Humano', 'Ética, valores universales, pensamiento crítico y sentido de vida en la era digital.')">Entrar al Módulo</button>
+                    </div>
+
+                    <div class="module-card">
+                        <div>
+                            <h3>Aprendizaje de Lenguaje Tecnológico</h3>
+                            <p>Lógica de programación, desarrollo web (HTML, CSS, JS) y sintaxis de lenguajes informáticos.</p>
+                        </div>
+                        <button class="btn-module" onclick="entrarModulo('Aprendizaje de Lenguaje Tecnológico', 'Lógica de programación, desarrollo web (HTML, CSS, JS) y sintaxis de lenguajes informáticos.')">Entrar al Módulo</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Vista de Reportes y Avances -->
+            <div id="view-reportes" class="view">
+                <div class="welcome-banner">
+                    <h2>Historial de Reportes y Calificaciones</h2>
+                    <p>Seguimiento general del progreso en las asignaturas activas del periodo.</p>
+                </div>
+
+                <div id="listaReportes">
+                    <div class="report-item">
+                        <div class="report-info">
+                            <h4>Asignatura / Área: Desarrollo Emocional y Humano</h4>
+                            <p>Actividades interactivas completadas del periodo.</p>
+                        </div>
+                        <span class="status-badge">En Progreso</span>
+                    </div>
+                    <div class="report-item">
+                        <div class="report-info">
+                            <h4>Asignatura / Área: Aprendizaje de Lenguaje Tecnológico</h4>
+                            <p>Prácticas de código y lógica computacional.</p>
+                        </div>
+                        <span class="status-badge">Completado con Éxito</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Vista Exclusiva para Docentes: Control y Creador IA -->
+            <div id="view-docente-panel" class="view">
+                <div class="welcome-banner">
+                    <h2>Panel de Gestión Docente y Creador IA</h2>
+                    <p>Supervisa asistencias y genera nuevos programas educativos automatizados.</p>
+                </div>
+
+                <div style="background: white; padding: 25px; border-radius: 8px; border: 1px solid #e2e8f0; margin-bottom: 25px;">
+                    <h3 style="margin-bottom: 15px; color: var(--primary-color);">Generador Inteligente de Cursos (IA)</h3>
+                    <div class="form-group">
+                        <label>Nombre de la Nueva Asignatura</label>
+                        <input type="text" id="inputMateriaIA" placeholder="Ej. Inteligencia Artificial Aplicada">
+                    </div>
+                    <div class="form-group">
+                        <label>Enfoque Pedagógico</label>
+                        <select id="selectEnfoque">
+                            <option value="Pensamiento Crítico">Pensamiento Crítico</option>
+                            <option value="Resolución de Problemas Prácticos">Resolución de Problemas Prácticos</option>
+                            <option value="Innovación Tecnológica">Innovación Tecnológica</option>
+                        </select>
+                    </div>
+                    <button class="btn-submit" onclick="ejecutarGeneracionCurso()">Generar Programa de Curso con IA</button>
+                    <div id="resultadoCursoIA" style="margin-top: 20px;"></div>
+                </div>
+            </div>
+
+            <!-- SECCIÓN NUEVA: Listado de Asignaturas Activas en la Plataforma -->
+    <div style="background: white; padding: 20px; border-radius: 8px; border: 1px solid #e2e8f0; margin-bottom: 25px; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
+        <h3 style="margin-bottom: 10px; color: var(--primary-color);">Asignaturas Disponibles en la Plataforma</h3>
+        <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 15px;">Listado oficial de materias impartidas actualmente en el ciclo:</p>
+        <div style="display: flex; flex-wrap: wrap; gap: 10px;">
+            <span style="background: #e0f2fe; color: #0284c7; padding: 6px 12px; border-radius: 6px; font-size: 0.85rem; font-weight: 600;">Finanzas y Economía con IA</span>
+            <span style="background: #e0f2fe; color: #0284c7; padding: 6px 12px; border-radius: 6px; font-size: 0.85rem; font-weight: 600;">Aprendizaje de Lenguaje Tecnológico (JS)</span>
+            <span style="background: #e0f2fe; color: #0284c7; padding: 6px 12px; border-radius: 6px; font-size: 0.85rem; font-weight: 600;">Desarrollo Emocional</span>
+            <span style="background: #e0f2fe; color: #0284c7; padding: 6px 12px; border-radius: 6px; font-size: 0.85rem; font-weight: 600;">Robótica y Automatización Básica</span>
+        </div>
+    </div>
+
+    <!-- Tabla de Control de Asistencia, Alumnos y Asignaturas que Cursan -->
+    <div style="background: white; padding: 25px; border-radius: 8px; border: 1px solid #e2e8f0; margin-bottom: 25px; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
+        <h3 style="margin-bottom: 15px; color: var(--primary-color);">Control de Asistencia y Materias por Estudiante</h3>
+        <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 20px;">Monitoreo de alumnos, asignaturas que están tomando actualmente y áreas donde requieren mayor apoyo.</p>
+        
+        <div style="overflow-x: auto;">
+            <table style="width: 100%; border-collapse: collapse; font-size: 0.85rem; text-align: left;">
+                <thead>
+                    <tr style="border-bottom: 2px solid #e2e8f0; color: var(--primary-color);">
+                        <th style="padding: 12px;">Estudiante</th>
+                        <th style="padding: 12px;">Asignaturas que Está Cursando</th>
+                        <th style="padding: 12px;">Asistencia</th>
+                        <th style="padding: 12px;">Promedio</th>
+                        <th style="padding: 12px;">Asignatura de Apoyo Prioritario</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr style="border-bottom: 1px solid #f1f5f9;">
+                        <td style="padding: 12px; font-weight: 600;">Juan Pérez (EST-P01)</td>
+                        <td style="padding: 12px; color: var(--primary-color);">Finanzas, Lenguaje Tecnológico</td>
+                        <td style="padding: 12px;"><span style="color: #059669; font-weight: 600;">95%</span></td>
+                        <td style="padding: 12px;">8.8</td>
+                        <td style="padding: 12px; color: var(--danger-color); font-weight: 600;">Lenguaje Tecnológico (JS)</td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid #f1f5f9;">
+                        <td style="padding: 12px; font-weight: 600;">María Gómez (EST-P02)</td>
+                        <td style="padding: 12px; color: var(--primary-color);">Robótica, Desarrollo Emocional</td>
+                        <td style="padding: 12px;"><span style="color: #059669; font-weight: 600;">100%</span></td>
+                        <td style="padding: 12px;">9.4</td>
+                        <td style="padding: 12px; color: var(--danger-color); font-weight: 600;">Robótica y Automatización</td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid #f1f5f9;">
+                        <td style="padding: 12px; font-weight: 600;">Carlos Ruiz (EST-P03)</td>
+                        <td style="padding: 12px; color: var(--primary-color);">Finanzas y Economía con IA</td>
+                        <td style="padding: 12px;"><span style="color: #d97706; font-weight: 600;">80%</span></td>
+                        <td style="padding: 12px;">7.5</td>
+                        <td style="padding: 12px; color: var(--danger-color); font-weight: 600;">Finanzas y Economía con IA</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Generador Inteligente de Cursos (IA) Dinámico -->
+    <div style="background: white; padding: 25px; border-radius: 8px; border: 1px solid #e2e8f0; margin-bottom: 25px;">
+        <h3 style="margin-bottom: 15px; color: var(--primary-color);">Generador Inteligente de Cursos (IA)</h3>
+        <div class="form-group">
+            <label>Nombre de la Nueva Asignatura</label>
+            <input type="text" id="inputMateriaIA" placeholder="Ej. Inteligencia Artificial Aplicada">
+        </div>
+        <div class="form-group">
+            <label>Enfoque Pedagógico</label>
+            <select id="selectEnfoque">
+                <option value="Pensamiento Crítico">Pensamiento Crítico</option>
+                <option value="Resolución de Problemas Prácticos">Resolución de Problemas Prácticos</option>
+                <option value="Innovación Tecnológica">Innovación Tecnológica</option>
+            </select>
+        </div>
+        <button class="btn-submit" onclick="ejecutarGeneracionCurso()">Generar Programa de Curso con IA</button>
+        <div id="resultadoCursoIA" style="margin-top: 20px;"></div>
+    </div>
+</div>
+
+            <!-- Vista Detalle de Módulo Individual -->
+            <div id="view-detalle-modulo" class="view">
+                <div class="welcome-banner" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px;">
+                    <div>
+                        <h2 id="tituloModuloDetalle">Nombre del Módulo</h2>
+                        <p id="subtituloModuloDetalle">Descripción de la asignatura e interacción con IA.</p>
+                    </div>
+                    <button class="btn-module" onclick="regresarAModulos()" style="background-color: var(--text-muted);">← Volver a Módulos</button>
+                </div>
+
+                <div style="background: white; padding: 25px; border-radius: 8px; border: 1px solid #e2e8f0; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
+                    <h3 style="margin-bottom: 15px; color: var(--primary-color);">Contenido y Asistente Interactivo</h3>
+                    <p style="color: var(--text-muted); margin-bottom: 20px; line-height: 1.5;">
+                        Aquí dispondrás de los materiales de estudio, simuladores guiados y actividades prácticas correspondientes a este módulo educativo.
+                    </p>
+                    <div style="padding: 20px; background: #f8fafc; border: 1px dashed #cbd5e1; border-radius: 6px;">
+                        <p style="font-weight: 600; color: var(--primary-color); margin-bottom: 5px;">Sesión Activa con IA:</p>
+                        <p style="font-size: 0.9rem; color: var(--text-muted);">El asistente virtual está listo para guiarte en tus prácticas de aprendizaje.</p>
+                    </div><script>
+        const clavesPorBase = {
+            primaria: ['EST-P01', 'EST-P02', 'EST-P03', 'EST-P04', 'EST-P05', 'EST-P06'],
+            secundaria: ['EST-P01', 'EST-P02', 'EST-P03'],
+            preparatoria: ['EST-PREP01', 'EST-PREP02', 'EST-PREP03'],
+            docentes: ['DOC-01', 'DOC-02']
+        };
+
+        const basesDeDatos = {
+            primaria: [],
+            secundaria: [],
+            preparatoria: [],
+            docentes: []
+        };
+
+        window.onload = function() {
+            cambiarBaseDatos();
+        };
+
+        function cambiarBaseDatos() {
+            const tipo = document.getElementById('tipoBase').value;
+            const grupoGrado = document.getElementById('grupoGrado');
+            const labelClave = document.getElementById('labelClave');
+            const selectClave = document.getElementById('claveEstudiante');
+
+            selectClave.innerHTML = '';
+
+            if (clavesPorBase[tipo]) {
+                clavesPorBase[tipo].forEach(clave => {
+                    const option = document.createElement('option');
+                    option.value = clave;
+                    option.textContent = clave;
+                    selectClave.appendChild(option);
+                });
+            }
+
+            if (tipo === 'docentes') {
+                grupoGrado.style.display = 'none';
+                labelClave.textContent = 'Clave de Docente';
+            } else {
+                grupoGrado.style.display = 'block';
+                labelClave.textContent = 'Clave de Estudiante';
+            }
+        }
+
+        function registrarUsuario(event) {
+            event.preventDefault();
+            const tipo = document.getElementById('tipoBase').value;
+            const nombre = document.getElementById('nombreCompleto').value;
+            const grado = tipo !== 'docentes' ? document.getElementById('gradoEstudiante').value : 'N/A';
+            const claveEscuela = document.getElementById('claveEscuela').value;
+            const claveSeleccionada = document.getElementById('claveEstudiante').value;
+            const correo = document.getElementById('correoElectronico').value;
+
+            const nuevoRegistro = {
+                nombre,
+                grado,
+                claveEscuela,
+                clave: claveSeleccionada,
+                correo,
+                fechaRegistro: new Date().toISOString()
+            };
+
+            basesDeDatos[tipo].push(nuevoRegistro);
+
+            document.getElementById('saludoUsuario').innerText = `¡Bienvenido(a), ${nombre}!`;
+            document.getElementById('infoRolUsuario').innerText = `Rol: ${tipo.toUpperCase()} | Clave: ${claveSeleccionada} | Escuela: ${claveEscuela}`;
+
+            document.getElementById('authScreen').style.display = 'none';
+            document.getElementById('appScreen').style.display = 'block';
+            document.getElementById('logoutBtn').style.display = 'block';
+
+            // Configurar vistas según el rol
+            if (tipo === 'docentes') {
+                document.getElementById('tabModulos').style.display = 'none';
+                document.getElementById('tabReportes').style.display = 'none';
+                document.getElementById('tabDocente').style.display = 'block';
+                switchTab('docente-panel', document.getElementById('tabDocente'));
+            } else {
+                document.getElementById('tabModulos').style.display = 'block';
+                document.getElementById('tabReportes').style.display = 'block';
+                document.getElementById('tabDocente').style.display = 'none';
+                switchTab('modulos', document.getElementById('tabModulos'));
+            }
+        }
+
+        function simularLoginDirecto() {
+            document.getElementById('saludoUsuario').innerText = `¡Hola de nuevo!`;
+            document.getElementById('infoRolUsuario').innerText = `Comunidad Educativa KALLPA`;
+
+            document.getElementById('authScreen').style.display = 'none';
+            document.getElementById('appScreen').style.display = 'block';
+            document.getElementById('logoutBtn').style.display = 'block';
+            
+            document.getElementById('tabModulos').style.display = 'block';
+            document.getElementById('tabReportes').style.display = 'block';
+            document.getElementById('tabDocente').style.display = 'none';
+            switchTab('modulos', document.getElementById('tabModulos'));
+        }
+
+        function cerrarSesion() {
+            document.getElementById('appScreen').style.display = 'none';
+            document.getElementById('logoutBtn').style.display = 'none';
+            document.getElementById('authScreen').style.display = 'block';
+            document.getElementById('registroForm').reset();
+            cambiarBaseDatos();
+        }
+
+        function switchTab(viewName, btnElement) {
+            document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+
+            const targetView = document.getElementById('view-' + viewName);
+            if (targetView) targetView.classList.add('active');
+            if (btnElement) btnElement.classList.add('active');
+        }
+
+        function entrarModulo(nombre, descripcion) {
+            document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+            document.getElementById('view-detalle-modulo').classList.add('active');
+            
+            document.getElementById('tituloModuloDetalle').innerText = nombre;
+            document.getElementById('subtituloModuloDetalle').innerText = descripcion;
+            
+            document.getElementById('navTabsContainer').style.display = 'none';
+        }
+
+        function regresarAModulos() {
+            document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+            document.getElementById('view-modulos').classList.add('active');
+            
+            document.getElementById('navTabsContainer').style.display = 'flex';
+        }
+
+        function ejecutarGeneracionCurso() {
+            const materia = document.getElementById('inputMateriaIA').value;
+            const enfoque = document.getElementById('selectEnfoque').value;
+            const nivel = document.getElementById('tipoBase').value;
+
+            if (!materia) {
+                alert('Por favor ingresa el nombre de la asignatura.');
+                return;
+            }
+
+            const curso = {
+                titulo: `Programa Avanzado de ${materia}`,
+                objetivo: `Desarrollar competencias en ${materia} usando ${enfoque} para nivel ${nivel}.`,
+                modulos: [
+                    { num: 1, nombre: 'Fundamentos y Diagnóstico', durac: '2 semanas' },
+                    { num: 2, nombre: 'Simuladores y Práctica con IA', durac: '3 semanas' },
+                    { num: 3, nombre: 'Proyecto Integrador Final', durac: '3 semanas' }
+                ]
+            };
+
+            document.getElementById('resultadoCursoIA').innerHTML = `
+                <div style="background: #f8fafc; padding: 15px; border-radius: 6px; border: 1px dashed var(--accent-color);">
+                    <h4 style="color: var(--accent-color); margin-bottom: 5px;">${curso.titulo}</h4>
+                    <p style="font-size: 0.85rem; margin-bottom: 10px;"><strong>Objetivo:</strong> ${curso.objetivo}</p>
+                    <ul style="font-size: 0.85rem; padding-left: 20px; color: var(--text-muted);">
+                        ${curso.modulos.map(m => `<li>Módulo ${m.num}: ${m.nombre} (${m.durac})</li>`).join('')}
+                    </ul>
+                </div>
+            `;
+        }
+    </script>
+</body>
+</html>
+
+
+
+
+        
+    
