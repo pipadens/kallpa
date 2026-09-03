@@ -1,0 +1,16 @@
+{
+    "name": "Kallpa Comunidad Educativa",
+    "short_name": "Kallpa",
+    "description": "Sistema de refuerzo y apoyo educativo para estudiantes y docentes",
+    "start_url": "./index.html",
+    "display": "standalone",
+    "background_color": "#0a4d3c",
+    "theme_color": "#0a4d3c",
+    "icons": [
+        {
+            "src": "imagen.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ]
+}

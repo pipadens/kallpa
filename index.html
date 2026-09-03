@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kallpa - Comunidad Educativa</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.json">
+</head>
+<body>
+
+<div class="app-container">
+    <!-- Header -->
+    <header>
+        <div class="brand">
+            <img src="imagen.png" alt="Escudo Nacional">
+            <div>
+                <h1>Kallpa</h1>
+                <p>Fuerza y Energía · Comunidad Educativa</p>
+            </div>
+        </div>
+        <div class="header-actions">
+            <div class="role-switch">
+                <button class="role-btn active" onclick="switchRole('student')">Estudiante</button>
+                <button class="role-btn" onclick="switchRole('teacher')">Docente</button>
+            </div>
+            <div class="user-status" id="userBadge">Invitado / Registro Pendiente</div>
+        </div>
+    </header>
+
+    <!-- VIEW 1: STUDENT REGISTRATION -->
+    <div class="view active" id="viewRegister">
+        <div class="register-grid">
+            <div class="welcome-text">
+                <h2>Bienvenido a Kallpa</h2>
+                <p>Plataforma inteligente de refuerzo y apoyo educativo para estudiantes y docentes del sistema público de México. Diseñada para cerrar brechas de aprendizaje con metodologías modernas y accesibles.</p>
+                <div style="display:flex; gap:10px; align-items:center; color: var(--accent-gold); font-weight:700;">
+                    <i class="fa-solid fa-shield-halved"></i> Sistema Oficial Verificado Morelos
+                </div>
+            </div>
+            <div class="form-card">
+                <h3 style="font-size: 18px; color: var(--primary-green); margin-bottom: 5px;">Registro de Estudiante</h3>
+                <div class="form-group">
+                    <label>Nombre completo del estudiante</label>
+                    <input type="text" id="regName" placeholder="Ej. Ana López Hernández">
+                </div>
+                <div class="form-group">
+                    <label>Nombre de la Escuela</label>
+                    <input type="text" id="regSchool" placeholder="Ej. Secundaria Técnica 30">
+                </div>
+                <div class="form-group">
+                    <label>Clave de la Escuela</label>
+                    <input type="text" id="regSchoolKey" placeholder="Ej. 17DST0030Z">
+                </div>
+                <div class="form-group">
+                    <label>Categoría de Grados</label>
+                    <select id="regLevel">
+                        <option value="Primaria">Primaria</option>
+                        <option value="Secundaria">Secundaria</option>
+                        <option value="Preparatoria">Preparatoria</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Clave de Estudiante por Grado</label>
+                    <select id="regKey">
+                        <option value="EST-PRI00">EST-PRI00 (Primaria)</option>
+                        <option value="EST-SEC00">EST-SEC00 (Secundaria)</option>
+                        <option value="EST-PRE00">EST-PRE00 (Preparatoria)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Correo Electrónico</label>
+                    <input type="email" id="regEmail" placeholder="correo@escuela.edu.mx">
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" id="regPass" placeholder="••••••••">
+                </div>
+                <button class="btn-gold" onclick="handleRegister()">Entrar / Registrarse</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- VIEW 1B: TEACHER REGISTRATION -->
+    <div class="view" id="viewTeacherRegister">
+        <div class="register-grid">
+            <div class="welcome-text">
+                <h2>Panel Docente Kallpa</h2>
+                <p>Monitoreo académico, seguimiento de avances por categoría y reportes institucionales para el IEBEM. Acompaña de cerca el desarrollo tecnológico y humano de tus estudiantes.</p>
+                <div style="display:flex; gap:10px; align-items:center; color: var(--accent-gold); font-weight:700;">
+                    <i class="fa-solid fa-chalkboard-user"></i> Portal de Acompañamiento Docente
+                </div>
+            </div>
+            <div class="form-card">
+                <h3 style="font-size: 18px; color: var(--primary-green); margin-bottom: 5px;">Registro de Docente</h3>
+                <div class="form-group">
+                    <label>Nombre completo</label>
+                    <input type="text" id="teachName" placeholder="Ej. Roberto Gómez Pérez">
+                </div>
+                <div class="form-group">
+                    <label>Cédula profesional</label>
+                    <input type="text" id="teachCedula" placeholder="Ej. 8492019">
+                </div>
+                <div class="form-group">
+                    <label>Nombre de la Escuela</label>
+                    <input type="text" id="teachSchool" placeholder="Ej. Secundaria Técnica 30">
+                </div>
+                <div class="form-group">
+                    <label>Clave de Escuela</label>
+                    <input type="text" id="teachSchoolKey" placeholder="Ej. 17DST0030Z">
+                </div>
+                <div class="form-group">
+                    <label>Categorías de Grados</label>
+                    <select id="teachLevel">
+                        <option value="Primaria">Primaria</option>
+                        <option value="Secundaria">Secundaria</option>
+                        <option value="Preparatoria">Preparatoria</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Claves de Docentes</label>
+                    <select id="teachKey">
+                        <option value="DOCE-PRI">DOCE-PRI (Primaria)</option>
+                        <option value="DOCE-SEC">DOCE-SEC (Secundaria)</option>
+                        <option value="DOCE-PRE">DOCE-PRE (Preparatoria)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Correo Electrónico</label>
+                    <input type="email" id="teachEmail" placeholder="docente@escuela.edu.mx">
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" id="teachPass" placeholder="••••••••">
+                </div>
+                <button class="btn-gold" onclick="handleTeacherRegister()">Acceder al Panel Docente</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- VIEW 2: LEVEL SELECTION -->
+    <div class="view" id="viewLevels">
+        <div class="level-header">
+            <h2>Selecciona tu Categoría de Grado</h2>
+            <p>Elige tu nivel para acceder a los módulos de aprendizaje adaptativo.</p>
+        </div>
+        <div class="level-cards">
+            <div class="level-card" onclick="selectLevel('Primaria')">
+                <i class="fa-solid fa-child-reaching"></i>
+                <h3>Primaria</h3>
+                <p>Fundamentos lúdicos, matemáticas básicas y primeras nociones tecnológicas.</p>
+            </div>
+            <div class="level-card" onclick="selectLevel('Secundaria')">
+                <i class="fa-solid fa-graduation-cap"></i>
+                <h3>Secundaria</h3>
+                <p>Pensamiento lógico, robótica inicial, desarrollo humano y programación.</p>
+            </div>
+            <div class="level-card" onclick="selectLevel('Preparatoria')">
+                <i class="fa-solid fa-laptop-code"></i>
+                <h3>Preparatoria</h3>
+                <p>Inteligencia Artificial aplicada, algoritmos avanzados y preparación propedéutica.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- VIEW 3: SUBJECT HUB -->
+    <div class="view" id="viewHub">
+        <div class="hub-top">
+            <button class="btn-back" onclick="goToView('viewLevels')"><i class="fa-solid fa-arrow-left"></i> Cambiar Categoría</button>
+            <div class="difficulty-selector">
+                <button class="diff-btn active" onclick="setDifficulty(this, 'Básico')">Básico</button>
+                <button class="diff-btn" onclick="setDifficulty(this, 'Intermedio')">Intermedio</button>
+                <button class="diff-btn" onclick="setDifficulty(this, 'Avanzado')">Avanzado</button>
+            </div>
+        </div>
+        <div style="margin-bottom: 20px;">
+            <h2 id="hubTitle" style="font-size: 26px;">Asignaturas - Secundaria</h2>
+            <p style="color: #666; font-size: 14px;">Selecciona una materia con 3 niveles de desafío (Teoría, Práctica y Evaluación).</p>
+        </div>
+        <div class="subjects-grid">
+            <div class="subject-card" onclick="openModule('Matemáticas')">
+                <i class="fa-solid fa-calculator"></i>
+                <h4>Matemáticas</h4>
+                <span id="badgeMath">Nivel Básico</span>
+            </div>
+            <div class="subject-card" onclick="openModule('Desarrollo Humano')">
+                <i class="fa-solid fa-hand-holding-heart"></i>
+                <h4>Desarrollo Humano</h4>
+                <span id="badgeHuman">Nivel Básico</span>
+            </div>
+            <div class="subject-card" onclick="openModule('Inteligencia Artificial')">
+                <i class="fa-solid fa-brain"></i>
+                <h4>Aprendizaje de IA</h4>
+                <span id="badgeAI">Nivel Básico</span>
+            </div>
+            <div class="subject-card" onclick="openModule('Robótica')">
+                <i class="fa-solid fa-robot"></i>
+                <h4>Robótica</h4>
+                <span id="badgeRobot">Nivel Básico</span>
+            </div>
+            <div class="subject-card" onclick="openModule('Lenguaje de Programación')">
+                <i class="fa-solid fa-code"></i>
+                <h4>Programación</h4>
+                <span id="badgeProg">Nivel Básico</span>
+            </div>
+            <div class="subject-card" onclick="openModule('Inglés')">
+                <i class="fa-solid fa-language"></i>
+                <h4>Inglés</h4>
+                <span id="badgeEng">Nivel Básico</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- VIEW 4: LEARNING MODULE -->
+    <div class="view" id="viewModule">
+        <div class="hub-top">
+            <button class="btn-back" onclick="goToView('viewHub')"><i class="fa-solid fa-arrow-left"></i> Volver a Asignaturas</button>
+            <span id="moduleSubtitle" style="font-weight: 700; color: var(--primary-green);">Asignatura: Matemáticas</span>
+            <button class="btn-back" onclick="goToView('viewHub')" style="border-color: #c0392b; color: #c0392b;"><i class="fa-solid fa-xmark"></i> Cerrar Panel</button>
+        </div>
+        <div class="module-container">
+            <div class="module-tabs">
+                <div class="mod-tab active" onclick="switchTab(event, 'paneTheory')"><i class="fa-solid fa-book-open"></i> Teoría</div>
+                <div class="mod-tab" onclick="switchTab(event, 'panePractice')"><i class="fa-solid fa-pen-to-square"></i> Práctica</div>
+                <div class="mod-tab" onclick="switchTab(event, 'paneEval')"><i class="fa-solid fa-square-poll-check"></i> Evaluación Retro</div>
+            </div>
+            <div class="module-content-area">
+                <div class="module-pane active" id="paneTheory">
+                    <h3 id="theoryTitle">Fundamentos de la Asignatura</h3>
+                    <p id="theoryText">Contenido teórico adaptado al nivel de dificultad seleccionado. Los desafíos aumentan progresivamente para agilizar las áreas con mayor dificultad de aprendizaje.</p>
+                </div>
+                <div class="module-pane" id="panePractice">
+                    <h3>Área de Práctica Interactiva</h3>
+                    <p>Resuelve el desafío correspondiente a tu nivel:</p>
+                    <div style="background: #fdfdfd; border: 1px solid var(--border-color); padding: 20px; border-radius: 8px;">
+                        <p style="font-weight: 700; color: var(--primary-green);" id="practicePrompt">Introduce la respuesta al reto técnico o conceptual:</p>
+                        <input type="text" id="practiceAnswer" placeholder="Escribe tu solución aquí..." style="width: 100%; padding: 10px; margin: 10px 0; border: 1px solid var(--border-color); border-radius: 6px;">
+                        <button class="btn-gold" style="padding: 8px 16px; font-size: 14px;" onclick="checkPractice()">Comprobar Respuesta</button>
+                        <p id="practiceResult" style="margin-top: 10px; font-weight: 700;"></p>
+                    </div>
+                </div>
+                <div class="module-pane" id="paneEval">
+                    <h3>Evaluación de Retroalimentación</h3>
+                    <p id="evalQuestion">Selecciona la opción correcta para verificar tu progreso:</p>
+                    <div class="quiz-option" onclick="selectQuiz(this)">A) Aplicación directa en el entorno real y comunitario.</div>
+                    <div class="quiz-option" onclick="selectQuiz(this)">B) Concepto teórico sin vinculación práctica.</div>
+                    <div class="quiz-option" onclick="selectQuiz(this)">C) Método obsoleto sin seguimiento.</div>
+                    <button class="btn-gold" style="padding: 10px 20px; margin-top: 10px; font-size: 14px;" onclick="submitEval()">Enviar Evaluación</button>
+                    <p id="evalFeedback" style="margin-top: 10px; font-weight: 700;"></p>
+                </div>
+                <div style="display: flex; justify-content: flex-end; border-top: 1px solid var(--border-color); padding-top: 15px;">
+                    <button class="btn-gold" style="padding: 8px 20px; font-size: 13px;" onclick="goToView('viewHub')">Guardar Avance y Salir</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- VIEW 5: TEACHER DASHBOARD (ADMIN / REPORTING) -->
+    <div class="view" id="viewTeacherDashboard">
+        <div class="hub-top">
+            <div>
+                <h2 id="teacherDashTitle" style="font-size: 24px;">Panel de Monitoreo Docente</h2>
+                <p id="teacherSubInfo" style="color: #666; font-size: 13px;">Seguimiento y reporte de estudiantes - Categoría: Secundaria</p>
+            </div>
+            <button class="btn-back" onclick="logoutTeacher()" style="border-color: #c0392b; color: #c0392b;"><i class="fa-solid fa-arrow-right-from-bracket"></i> Cerrar Sesión Docente</button>
+        </div>
+
+        <div class="teacher-dashboard-grid">
+            <!-- Left Column: Assigned Subjects Overview -->
+            <div class="dash-card">
+                <h3>Asignaturas Activas en la Categoría</h3>
+                <p style="font-size: 12px; color: #666; margin-bottom: 10px;">Materias que cursan los estudiantes bajo tu supervisión:</p>
+                <div class="teacher-subjects-list">
+                    <span class="t-subj">Matemáticas</span>
+                    <span class="t-subj">Desarrollo Humano</span>
+                    <span class="t-subj">Aprendizaje de IA</span>
+                    <span class="t-subj">Robótica</span>
+                    <span class="t-subj">Programación</span>
+                    <span class="t-subj">Inglés</span>
+                </div>
+
+                <h3 style="margin-top: 20px;">Informe al IEBEM</h3>
+                <p style="font-size: 12px; color: #666; margin-bottom: 8px;">Valida si Kallpa cubre con las necesidades educativas:</p>
+                <textarea id="iebemReportText" rows="3" placeholder="Escribe tu informe institucional para el IEBEM aquí..." style="width:100%; padding:8px; border:1px solid var(--border-color); border-radius:6px; font-size:12px; margin-bottom:8px;"></textarea>
+                <button class="btn-gold" style="width:100%; font-size:13px; padding:8px;" onclick="submitIEBEMReport()">Enviar Informe a IEBEM</button>
+                <p id="iebemStatus" style="font-size:11px; margin-top:5px; font-weight:700; color: var(--primary-green);"></p>
+            </div>
+
+            <!-- Right Column: Excel-like Student Progress Table & Difficulty Files -->
+            <div class="dash-card" style="display:flex; flex-direction:column; gap:10px;">
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                    <h3>Reporte de Avances (Archivo Estudiantil)</h3>
+                    <span style="font-size: 11px; background: #e2ede8; color: var(--primary-green); padding: 3px 8px; border-radius: 4px; font-weight:700;"><i class="fa-solid fa-file-excel"></i> Formato Excel Activo</span>
+                </div>
+                <p style="font-size: 12px; color: #666;">Calificaciones, asistencias, mejoras y asignaturas con mayor dificultad por alumno:</p>
+                
+                <div class="table-container">
+                    <table class="excel-table">
+                        <thead>
+                            <tr>
+                                <th>Estudiante</th>
+                                <th>Calificación</th>
+                                <th>Asistencia</th>
+                                <th>Mejoras</th>
+                                <th>Materia con Dificultad</th>
+                                <th>Orientación Sugerida</th>
+                            </tr>
+                        </thead>
+                        <tbody id="studentReportTableBody">
+                            <!-- Populated dynamically based on category -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SINED VIRTUAL ASSISTANT WIDGET -->
+    <div class="sined-widget">
+        <button class="sined-toggle-btn" onclick="toggleSined()" title="Habla con Sined"><i class="fa-solid fa-robot"></i></button>
+        <div class="sined-chat-box" id="sinedChatBox">
+            <div class="sined-header">
+                <div>Asistente Virtual - <span>Sined</span></div>
+                <div style="display: flex; gap: 8px; align-items: center;">
+                    <i class="fa-solid fa-xmark" style="cursor: pointer;" onclick="toggleSined()" title="Cerrar Panel"></i>
+                </div>
+            </div>
+            <div class="sined-messages" id="sinedMessages">
+                <!-- Se llena dinámicamente con el nombre del usuario registrado -->
+            </div>
+            <div class="sined-input-area">
+                <input type="text" id="sinedInput" placeholder="Pregúntale a Sined..." onkeypress="handleSinedKey(event)">
+                <button onclick="sendSinedMsg()"><i class="fa-solid fa-paper-plane"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <div class="app-footer">
+        Kallpa (Comunidad Educativa) · Proyecto orientado a IEBEM y SEP · Diseñado con vocación ciudadana.
+    </div>
+</div>
+
+<script src="apps.js"></script>
+<script>
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('sW.js').catch(err => console.log(err));
+        });
+    }
+</script>
+</body>
+</html>
