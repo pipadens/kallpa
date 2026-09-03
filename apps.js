@@ -4,19 +4,6 @@ let currentSubject = 'Matemáticas';
 let studentName = 'Estudiante';
 let schoolName = '';
 let userRole = 'student';
-let userRole = 'student';
-
-function switchRole(role) {
-    userRole = role;
-    document.querySelectorAll('.role-btn').forEach(b => b.classList.remove('active'));
-    
-    if(role === 'student') {
-        document.querySelectorAll('.role-btn')[0].classList.add('active');
-        goToView('viewRegister');
-    } else {
-        document.querySelectorAll('.role-btn')[1].classList.add('active');
-        goToView('viewTeacherRegister');
-    }
 }
 function switchRole(role) {
     userRole = role;
