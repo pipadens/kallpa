@@ -4,7 +4,7 @@ let currentSubject = 'Matemáticas';
 let studentName = 'Estudiante';
 let schoolName = '';
 let userRole = 'student';
-}
+
 function switchRole(role) {
     userRole = role;
     document.querySelectorAll('.role-btn').forEach(b => b.classList.remove('active'));
