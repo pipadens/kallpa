@@ -1,0 +1,20 @@
+{
+  "name": "Kallpa Fuerza y Energía",
+  "short_name": "Kallpa",
+  "start_url": "/kallpa/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#1e3a8a",
+  "icons": [
+    {
+      "src": "imagen.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "imagen.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
